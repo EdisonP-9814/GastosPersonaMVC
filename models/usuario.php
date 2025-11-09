@@ -127,18 +127,29 @@ class Usuario {
     // Login: asume que setEmail() y setPassword() ya fueron invocados
     // Retorna objeto usuario (sin password) o false
     public function login() {
-        if (empty($this->email) || empty($this->password)) {
+        // Validación: Asegurarse de que se hayan establecido la cédula y la contraseña
+        if (empty($this->cedula) || empty($this->password)) {
             return false;
         }
 
-        $stmt = $this->db->prepare("SELECT id_usuario, cedula_usuario, nombre_usuario, email_usuario, telefono_usuario, direccion_usuario, clave_usuario, id_rol_usuario FROM usuarios WHERE email_usuario = ? LIMIT 1");
-        $stmt->bind_param("s", $this->email);
+        /* * CORRECCIÓN: 
+         * Cambiamos "email_usuario = ?" por "cedula_usuario = ?"
+         */
+        $stmt = $this->db->prepare("SELECT id_usuario, cedula_usuario, nombre_usuario, email_usuario, telefono_usuario, direccion_usuario, clave_usuario, id_rol_usuario FROM usuarios WHERE cedula_usuario = ? LIMIT 1");
+        
+        /* * CORRECCIÓN: 
+         * Cambiamos bind_param("s", $this->email) por bind_param("s", $this->cedula)
+         */
+        $stmt->bind_param("s", $this->cedula);
         $stmt->execute();
         $res = $stmt->get_result();
+
         if ($res && $res->num_rows === 1) {
             $row = $res->fetch_assoc();
-            // Verificamos la contraseña
+            
+            // Verificamos la contraseña (esto ya estaba correcto)
             if (password_verify($this->password, $row['clave_usuario'])) {
+                
                 // Preparamos un objeto seguro para devolver (sin clave)
                 $user = new stdClass();
                 $user->id_usuario = (int)$row['id_usuario'];
@@ -154,7 +165,7 @@ class Usuario {
             }
         }
         $stmt->close();
-        return false;
+        return false; // Cédula no encontrada o contraseña incorrecta
     }
 
     // Obtener todos los usuarios

@@ -17,9 +17,15 @@
      <nav id='menu' class='Conthcc' style='height: 40px; background: #d4dff3;'>
         <ul>
             <li><a href="<?=base_url?>">Inicio</a></li>
-            <li><a href="#">Usuarios</a></li>
+            <li><a href="<?=base_url?>Cuenta/index">Cuentas</a></li>
+            <li><a href="<?=base_url?>usuario/registro">Usuarios</a></li>
             <li><a href="#">Transacciones</a></li>
             <li><a href="#">Reportes</a></li>
+
+            <?php if(isset($_SESSION['identity'])): ?>
+                <li><a href="<?=base_url?>usuario/logout">Cerrar Sesión (<?= $_SESSION['identity']->nombre_usuario ?>)</a></li>
+            <?php endif; ?>
         </ul>
      </nav>
+    <div class='Contptl'>
     <div class='Contptl'>
