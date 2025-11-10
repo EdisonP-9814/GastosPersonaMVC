@@ -3,9 +3,15 @@ require_once 'models/usuario.php';
 
 class UsuarioController {
 
-    /* ----------- Vista principal (puede listar usuarios o mostrar home) ----------- */
+    /* ----------- Vista principal (Dashboard o Home Público) ----------- */
     public function index() {
-        echo "<h3>Bienvenido al módulo de usuarios</h3>";
+        if(isset($_SESSION['identity'])){
+            // Si está logueado, muestra el dashboard
+            require_once 'views/dashboard/index.php';
+        } else {
+            // Si NO está logueado, muestra el formulario de registro
+            require_once 'views/usuarios/usuarios.php';
+        }
     }
 
     /* ----------- Mostrar formulario de registro ----------- */
@@ -13,7 +19,7 @@ class UsuarioController {
         require_once 'views/usuarios/usuarios.php'; 
     }
 
-    /* ----------- Guardar un nuevo usuario ----------- */
+   /* ----------- Guardar un nuevo usuario ----------- */
     public function save() {
         if (isset($_POST)) {
             $usuario = new Usuario();
@@ -28,8 +34,11 @@ class UsuarioController {
             if ($_POST['password'] === $_POST['password2']) {
                 $save = $usuario->save();
                 if ($save) {
-                    $_SESSION['msgok'] = "Registro completado con éxito!";
-                    require_once 'views/success.php';
+                    // MODIFICADO: Usamos 'msgsuccess' para ser consistentes
+                    $_SESSION['msgsuccess'] = "Registro completado con éxito! Inicia sesión.";
+                    // MODIFICADO: Redirigimos al home (donde verá el login)
+                    header("Location: ".base_url);
+                    exit();
                 } else {
                     $_SESSION['msgerror'] = "Error en el registro. Verifica si ya existe la cédula o el correo.";
                     require_once 'views/error.php';
@@ -55,8 +64,12 @@ class UsuarioController {
 
             if ($datos && is_object($datos)) {
                 $_SESSION['identity'] = $datos; // guardamos datos de sesión
-                $_SESSION['msgok'] = "Bienvenido, {$datos->nombre_usuario}";
-                require_once 'views/success.php';
+                // MODIFICADO: Usamos 'msgsuccess' para ser consistentes
+                $_SESSION['msgsuccess'] = "Bienvenido, {$datos->nombre_usuario}";
+                
+                // MODIFICADO: Redirigimos al home (que ahora será el dashboard)
+                header("Location: ".base_url);
+                exit();
             } else {
                 $_SESSION['msgerror'] = "Cédula o contraseña incorrecta";
                 require_once 'views/error.php';
