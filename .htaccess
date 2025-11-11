@@ -1,8 +1,14 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  
+  # 1. Define la carpeta raíz de tu proyecto
+  RewriteBase /gastosPersonal/
 
+  # 2. Ignora archivos y carpetas reales
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
 
-  RewriteRule ^(.*)/(.*) index.php?controller=$1&action=$2
+  # 3. Regla mejorada: Captura solo controlador y acción
+  #    (Cualquier cosa que NO sea una barra diagonal)
+  RewriteRule ^([^/]+)/([^/]+)/?$ index.php?controller=$1&action=$2 [L]
 </IfModule>

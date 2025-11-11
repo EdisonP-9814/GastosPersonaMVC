@@ -1,25 +1,17 @@
 <div class='Contvcc Frm1' style='margin-top: 20px;'>
     
     <div style="width: 80%; margin-top: 20px;">
-        <h4>Mi Dashboard</h4>
+        <h4>Historial de Transacciones</h4>
         <p>
-            ¡Bienvenido, <?= htmlspecialchars($_SESSION['identity']->nombre_usuario) ?>!
+            Aquí puedes ver todos los movimientos que has registrado.
         </p>
-        
-        <div class='Conthcs' style='width: 100%; margin: 20px 0;'>
-            <a href="<?=base_url?>Cuenta/index" class="Bt4b" style="width: 150px;">Ver mis Cuentas</a>
-            <a href="<?=base_url?>Transaccion/crear" class="Bt4b" style="width: 150px; background-color: #41c16b;">Nuevo Gasto</a>
-            <a href="<?=base_url?>Transaccion/crearIngreso" class="Bt4b" style="width: 150px; background-color: #25739d;">Nuevo Ingreso</a>
-        </div>
-        
-        <h5 style="margin-top: 30px;">Movimientos Recientes</h5>
         
         <?php if (empty($transacciones)): ?>
             <p class="Txwarning" style="margin-top: 20px;">
                 Aún no tienes transacciones registradas.
             </p>
         <?php else: ?>
-            <table style='margin-top: 10px;'>
+            <table style='margin-top: 20px;'>
                 <thead>
                     <tr>
                         <th>Fecha</th>

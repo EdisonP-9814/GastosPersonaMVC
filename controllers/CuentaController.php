@@ -15,9 +15,7 @@ class CuentaController {
         }
     }
 
-    /**
-     * Acción Principal: Muestra el listado de cuentas.
-     */
+    /** Acción Principal: Muestra el listado de cuentas.**/
     public function index() {
         $this->checkLogin(); 
 
@@ -28,9 +26,7 @@ class CuentaController {
         require_once 'views/cuentas/index.php'; 
     }
 
-    /**
-     * Acción Crear: Muestra el formulario para crear una nueva cuenta.
-     */
+    /**Acción Crear: Muestra el formulario para crear una nueva cuenta.**/
     public function crear() {
         $this->checkLogin(); 
         require_once 'views/cuentas/crear.php';
@@ -42,8 +38,7 @@ class CuentaController {
     public function save() {
         $this->checkLogin(); 
 
-        if (isset($_POST)) {
-            
+        if (isset($_POST)) {        
             $nombre = $_POST['nombre'] ?? null;
             $tipo = $_POST['tipo'] ?? null;
             $saldo = $_POST['saldo'] ?? 0.00;
@@ -60,6 +55,7 @@ class CuentaController {
 
                 if ($save) {
                     $_SESSION['msgsuccess'] = "Cuenta creada con éxito.";
+                    ob_end_clean();
                     header("Location: " . base_url . "Cuenta/index");
                     exit();
                 } else {

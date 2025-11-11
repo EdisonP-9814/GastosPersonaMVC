@@ -1,5 +1,6 @@
 <?php
 require_once 'models/usuario.php';
+require_once 'models/transaccion.php';
 
 class UsuarioController {
 
@@ -7,6 +8,13 @@ class UsuarioController {
     public function index() {
         if(isset($_SESSION['identity'])){
             // Si está logueado, muestra el dashboard
+            
+            // 1. Cargar las transacciones recientes
+            $transaccion_model = new Transaccion();
+            $id_usuario = $_SESSION['identity']->id_usuario;
+            $transacciones = $transaccion_model->getRecentByUserId($id_usuario);
+            
+            // 2. Cargar la vista del dashboard (y pasarle los datos)
             require_once 'views/dashboard/index.php';
         } else {
             // Si NO está logueado, muestra el formulario de registro
@@ -19,24 +27,22 @@ class UsuarioController {
         require_once 'views/usuarios/usuarios.php'; 
     }
 
-   /* ----------- Guardar un nuevo usuario ----------- */
+/* ----------- Guardar un nuevo usuario ----------- */
     public function save() {
         if (isset($_POST)) {
             $usuario = new Usuario();
-            $usuario->setCedula($_POST['id']);   // Cédula
+            $usuario->setCedula($_POST['id']);
             $usuario->setNombre($_POST['nombre']);
             $usuario->setEmail($_POST['email']);
             $usuario->setTelefono($_POST['telefono']);
             $usuario->setDireccion($_POST['direccion']);
             $usuario->setPassword($_POST['password']);
 
-            // Validar contraseñas iguales
             if ($_POST['password'] === $_POST['password2']) {
                 $save = $usuario->save();
                 if ($save) {
-                    // MODIFICADO: Usamos 'msgsuccess' para ser consistentes
                     $_SESSION['msgsuccess'] = "Registro completado con éxito! Inicia sesión.";
-                    // MODIFICADO: Redirigimos al home (donde verá el login)
+                    ob_end_clean(); // <-- Limpiamos el búfer
                     header("Location: ".base_url);
                     exit();
                 } else {
@@ -57,17 +63,16 @@ class UsuarioController {
     public function login() {
         if (isset($_POST['cedula']) && isset($_POST['clave'])) {
             $usuario = new Usuario();
-            $usuario->setCedula($_POST['cedula']); // usamos cédula
-            $usuario->setPassword($_POST['clave']); // clave sin hash
+            $usuario->setCedula($_POST['cedula']);
+            $usuario->setPassword($_POST['clave']);
 
             $datos = $usuario->login();
 
             if ($datos && is_object($datos)) {
-                $_SESSION['identity'] = $datos; // guardamos datos de sesión
-                // MODIFICADO: Usamos 'msgsuccess' para ser consistentes
+                $_SESSION['identity'] = $datos; 
                 $_SESSION['msgsuccess'] = "Bienvenido, {$datos->nombre_usuario}";
                 
-                // MODIFICADO: Redirigimos al home (que ahora será el dashboard)
+                ob_end_clean(); // <-- Limpiamos el búfer
                 header("Location: ".base_url);
                 exit();
             } else {
@@ -85,9 +90,14 @@ class UsuarioController {
         if (isset($_SESSION['identity'])) {
             unset($_SESSION['identity']);
         }
+        
         session_destroy();
-        $_SESSION['msgok'] = "Sesión cerrada correctamente";
-        require_once 'views/success.php';
+        session_start();
+        $_SESSION['msgsuccess'] = "Sesión cerrada correctamente";
+        
+        ob_end_clean();
+        header("Location: ".base_url);
+        exit(); 
     }
 }
 ?>

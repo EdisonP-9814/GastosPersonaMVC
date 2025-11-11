@@ -19,13 +19,12 @@
             <li><a href="<?=base_url?>">Inicio</a></li>
             <li><a href="<?=base_url?>Cuenta/index">Cuentas</a></li>
             <li><a href="<?=base_url?>usuario/registro">Usuarios</a></li>
-            <li><a href="#">Transacciones</a></li>
+            <li><a href="<?=base_url?>Transaccion/index">Transacciones</a></li>
             <li><a href="#">Reportes</a></li>
 
             <?php if(isset($_SESSION['identity'])): ?>
                 <li><a href="<?=base_url?>usuario/logout">Cerrar Sesión (<?= $_SESSION['identity']->nombre_usuario ?>)</a></li>
             <?php endif; ?>
         </ul>
-     </nav>
-    <div class='Contptl'>
-    <div class='Contptl'>
+    </nav>
+    <div class='Contptl'>  <div class='Contptl'>
