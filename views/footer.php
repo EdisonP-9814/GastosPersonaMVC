@@ -1,9 +1,6 @@
-</div> <footer id="pie-de-pagina">
+</div> </div> <footer id="pie-de-pagina">
         <p>&copy; <?= date('Y') ?> Gastos Personales MVC. Todos los derechos reservados.</p>
-        <p>Desarrollado por: </p>
-        <p> Jhon Edison P.</p>
-        <p> Ricardo Solano V.</p>
-        <p> Luis David Andrade D.</p>
+        <p>Desarrollado por: <br>Jhon Edison P. <br>Ricardo Solano V. <br>Luis David Andrade D.</p>
     </footer>
 
 </body>

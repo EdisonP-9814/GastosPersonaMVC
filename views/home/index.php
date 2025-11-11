@@ -7,6 +7,6 @@
         <p style="margin-top: 10px; font-size: 15px;">
             Si aún no tienes una cuenta, puedes hacer clic en <strong>"Regístrate"</strong>.
         </p>
-        <img src="<?=base_url?>assets/images/logo.png" alt="Logo" style="width: 120px; height: auto; margin-top: 30px; opacity: 0.8;">
+        <img src="<?=base_url?>assets/images/logo_portada.png" alt="Logo" style="width: 500px; height: auto; margin-top: 30px; opacity: 0.8;">
     </div>
 </div>

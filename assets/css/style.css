@@ -4,32 +4,31 @@
 * { 
     margin: 0; 
     padding: 0; 
-    box-sizing: border-box; /* Un estándar moderno para el layout */
+    box-sizing: border-box; 
 }
 ul, ol { 
     list-style: none; 
 }
 a { 
     text-decoration: none; 
-    color: #0056b3; /* Un azul más profesional */
+    color: #0056b3;
 }
 a:hover {
     text-decoration: underline;
 }
 
 body { 
-    background-color: #f8f9fa; /* Un fondo gris muy claro, no blanco puro */
+    background-color: #f8f9fa; 
     font-family: 'Work Sans', sans-serif; 
     line-height: 1.6;
     font-size: 14px; 
-    color: #343a40; /* Un color de texto oscuro, no negro puro */
+    color: #343a40; 
 }
 
-/* Tipografía de Encabezados (Más suave) */
 h1, h2, h3, h4, h5, h6 { 
     font-family: 'Montserrat', sans-serif; 
     font-weight: 600;
-    color: #2c3e50; /* Un azul-gris oscuro profesional */
+    color: #2c3e50; 
     margin-bottom: 0.5rem;
 }
 
@@ -48,7 +47,7 @@ header#cabecera-principal {
 header#cabecera-principal .logo {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espacio entre logo y texto */
+    gap: 10px;
 }
 header#cabecera-principal .logo img {
     width: 40px;
@@ -84,14 +83,16 @@ header#cabecera-principal nav li a:hover {
     align-items: flex-start; 
     justify-content: flex-start; 
     width: 100%;
-    max-width: 1400px; /* Ancho máximo para el contenido */
-    margin: 10px auto; /* Centramos el layout */
+    max-width: 1400px;
+    margin: 10px auto;
     padding: 0 10px;
+    height: auto; /* CORREGIDO: quitamos altura fija */
+    min-height: 450px; /* Mantenemos un alto mínimo */
 }
 .Block_aside { 
     width: 25%; 
-    min-width: 280px; /* Ancho fijo para el sidebar */
-    flex-shrink: 0; /* Evita que se encoja */
+    min-width: 280px; 
+    flex-shrink: 0; 
     margin-right: 20px;
 }
 .Frm1 { 
@@ -103,7 +104,7 @@ header#cabecera-principal nav li a:hover {
     box-shadow: 0 2px 4px rgba(0,0,0,0.03);
 }
 
-/* Helpers de Flexbox (Mantenemos los originales) */
+/* Helpers de Flexbox */
 .Contvtc { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; }
 .Contvtl { display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start; }
 .Contvcc { display: flex; flex-direction: column; justify-content: center; align-items: center; }
@@ -122,27 +123,15 @@ header#cabecera-principal nav li a:hover {
    FORMULARIOS Y CAJAS (Frm2)
    ================================================== */
 .Frm2, .Frm260 {
-    width: 100%; /* Ocupa el 100% del sidebar */
+    width: 100%; 
     padding: 20px;
-    background: #ffffff; /* Fondo blanco, no gris */
+    background: #ffffff; 
     border: 1px solid #dee2e6;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.03);
 }
-.Frm260 .Conthcl {
-    width: 100%;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.Frm260 label {
-    width: auto;
-    margin-left: 0;
-}
-.Frm260 input {
-    width: 150px; /* Ajustamos el input */
-}
 
-/* Inputs y Selects (Más grandes y limpios) */
+/* Inputs y Selects */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -151,7 +140,7 @@ input[type="date"],
 select {
     width: 100%;
     padding: 10px;
-    height: 40px; /* Altura estándar */
+    height: 40px; 
     border: 1px solid #ced4da;
     border-radius: 5px;
     font-family: 'Work Sans', sans-serif;
@@ -174,7 +163,7 @@ label {
 }
 
 /* ==================================================
-   BOTONES (Paleta de colores limpia)
+   BOTONES
    ================================================== */
 .Bt4b, .Bt4r, .Bt2, .Bt2r, .Bt3, .Btc {
     padding: 10px 15px;
@@ -194,54 +183,28 @@ label {
 }
 .Bt4b:hover, .Bt4r:hover, .Bt2:hover, .Bt2r:hover, .Bt3:hover, .Btc:hover {
     color: #fff;
-    transform: translateY(-1px); /* Ligero efecto al pasar el mouse */
+    transform: translateY(-1px);
 }
-
-/* Color Primario (Azul) */
-.Bt4b { 
-    background-color: #0056b3; 
-    height: 40px; 
-    width: auto;
-}
+.Bt4b { background-color: #0056b3; height: 40px; width: auto; }
 .Bt4b:hover { background-color: #004494; }
-
-/* Color Peligro (Rojo) */
-.Bt4r, .Bt2r, .Btc { 
-    background-color: #dc3545; 
-    height: 40px; 
-    width: auto;
-}
-.Bt4r:hover, .Bt2r:hover, .Btc:hover { background-color: #c82333; }
-
-/* Color Secundario (Azul más claro) */
-.Bt2 { 
-    background-color: #25739d;
-    height: 25px; /* Botón pequeño */
-    font-size: 11px;
-    padding: 5px 8px;
-}
+.Bt4r, .Btc { background-color: #dc3545; height: 40px; width: auto; }
+.Bt4r:hover, .Btc:hover { background-color: #c82333; }
+.Bt2 { background-color: #25739d; height: 25px; font-size: 11px; padding: 5px 8px; }
 .Bt2:hover { background-color: #206085; }
-
-/* Color Éxito (Verde) */
-.Bt3 { 
-    background-color: #28a745; 
-    height: 25px; /* Botón pequeño */
-    padding: 5px 10px;
-}
+.Bt3 { background-color: #28a745; height: 25px; padding: 5px 10px; }
 .Bt3:hover { background-color: #218838; }
 
-
 /* ==================================================
-   TABLAS (Más legibles)
+   TABLAS
    ================================================== */
 table { 
-    border-collapse: collapse; /* Bordes limpios */
-    width: 100%; /* Ocupa el 100% de su contenedor */
+    border-collapse: collapse; 
+    width: 100%; 
     text-align: left;
     border: 1px solid #dee2e6;
 }
 th { 
-    background: #f1f3f5; /* Fondo de cabecera gris claro */
+    background: #f1f3f5; 
     color: #495057;
     padding: 12px 10px;
     font-weight: 600;
@@ -253,12 +216,11 @@ td {
     padding: 10px; 
     color: #495057;
 }
-/* Filas alternadas para legibilidad */
 tbody tr:nth-child(even) {
     background-color: #f8f9fa;
 }
 td a.Bt2, td a.Bt2r {
-    display: inline-flex; /* Para que estén uno al lado del otro */
+    display: inline-flex; 
     margin-right: 5px;
 }
 
@@ -269,34 +231,24 @@ td a.Bt2, td a.Bt2r {
 .alt_red { color: #c82333; font-weight: 600; }
 .Txwarning { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; }
 
-/* Sidebar logueado */
-.Hovsbr h5 {
-    color: #0056b3;
-    font-weight: 500;
-    margin: 5px 0;
-}
-.Hovsbr:hover h5 {
-    color: #004494;
-    text-decoration: underline;
-}
 /* ==================================================
    AJUSTES VISUALES (11-NOV)
    ================================================== */
 
 /* 1. Arregla el formulario de Login (Sidebar) */
 .Frm260 .Conthcl {
-    justify-content: flex-start; /* Alinea a la izquierda */
-    gap: 10px; /* Espacio entre label e input */
+    justify-content: flex-start;
+    gap: 10px;
     align-items: center;
 }
 .Frm260 .Conthcl label {
-    display: inline-block; /* Permite que esté al lado del input */
-    width: 80px; /* Ancho fijo para la etiqueta */
+    display: inline-block;
+    width: 80px;
     text-align: right;
-    margin-bottom: 0; /* Quita el margen inferior */
+    margin-bottom: 0;
 }
 .Frm260 .Conthcl input {
-    width: 150px; /* Ancho fijo para el input */
+    width: 150px;
 }
 .Frm260 .Hovsbr {
     text-align: center;
@@ -307,11 +259,21 @@ td a.Bt2, td a.Bt2r {
     width: 100%;
     margin-top: 15px;
 }
+.Frm260 .Hovsbr h5 { /* Aumenta tamaño enlace "Regístrate" */
+    font-size: 16px;
+    font-weight: 600;
+    color: #0056b3;
+}
+.Frm260 .Hovsbr:hover h5 {
+    color: #004494;
+}
+
 /* 2. Limita el ancho del formulario de Registro */
 .Frm1 form.Frm2 {
-    max-width: 450px; /* Ancho máximo para el formulario de registro */
+    max-width: 450px; 
     width: 100%;
 }
+
 /* 3. Estilos para el menú del Sidebar (Logueado) */
 .sidebar-menu {
     width: 100%;
@@ -340,10 +302,11 @@ td a.Bt2, td a.Bt2r {
     background-color: #f8d7da; /* Fondo rojo claro */
     color: #c82333;
 }
+
 /* 4. Estilos para el Pie de Página */
 #pie-de-pagina {
     width: 100%;
-    background-color: #7e8081; /* Fondo oscuro */
+    background-color: #343a40; /* Fondo oscuro */
     color: #f8f9fa; /* Texto claro */
     text-align: center;
     padding: 20px;
@@ -352,24 +315,34 @@ td a.Bt2, td a.Bt2r {
 #pie-de-pagina p {
     margin: 0;
     font-size: 13px;
-    color: #334455;
+    color: #adb5bd;
 }
 #pie-de-pagina p:first-child {
     color: #ffffff;
     font-weight: 500;
 }
-/* 5. Aumentar tamaño del enlace 'Regístrate' en el sidebar */
-.Frm260 .Hovsbr h5 {
-    font-size: 16px; /* Aumentamos el tamaño */
-    font-weight: 600; /* Lo hacemos más grueso */
-    color: #0056b3; /* Usamos el color azul principal */
-}
-.Frm260 .Hovsbr:hover h5 {
-    color: #004494; /* Un azul más oscuro al pasar el mouse */
-}
-/* 6. Arregla la simetría de los botones de la tabla */
+
+/* 5. Arregla simetría de botones de tabla */
 .Bt2r {
-    height: 25px; /* Misma altura que Bt2 */
-    font-size: 11px; /* Misma fuente que Bt2 */
-    padding: 5px 8px; /* Mismo padding que Bt2 */
+    height: 25px;
+    font-size: 11px;
+    padding: 5px 8px;
+}
+
+/* ==================================================
+   STICKY FOOTER (11-NOV)
+   ================================================== */
+html {
+    height: 100%;
+}
+body {
+    min-height: 100vh; /* El body ocupa al menos el 100% de la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+}
+#main-container {
+    flex: 1; /* Esta es la regla mágica: hace que este div crezca */
+}
+#pie-de-pagina {
+    flex-shrink: 0; /* Evita que el footer se encoja */
 }

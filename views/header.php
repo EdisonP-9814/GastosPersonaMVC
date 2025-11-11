@@ -33,10 +33,11 @@
     </header>
 
     <?php 
-        // Revisa si hay mensajes de éxito o error y los muestra
         if (class_exists('Utils')) {
             Utils::showSessionMessage('msgsuccess', 'success');
             Utils::showSessionMessage('msgerror', 'error');
         }
     ?>
-    <div class='Contptl'>
+    <div id="main-container">
+
+        <div class='Contptl'>
