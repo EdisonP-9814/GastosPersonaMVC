@@ -7,24 +7,36 @@
     <link rel="shortcut icon" href="<?=base_url?>assets/images/logo.png">
 </head>
 <body>
-    <!-- Cabecera -->
-    <header class='Conthcl' style='height: 60px; background: #73a0db;'>
-        <img src="<?=base_url?>assets/images/logo.png" alt="Logo">
-        <p>Gastos Personales</p>
+
+    <header id='cabecera-principal'>
+        <div class="logo">
+            <img src="<?=base_url?>assets/images/logo.png" alt="Logo">
+            <p>Gastos Personales</p>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="<?=base_url?>">Inicio</a></li>
+
+                <?php if(isset($_SESSION['identity'])): ?>
+                    <li><a href="<?=base_url?>Cuenta/index">Cuentas</a></li>
+                    <li><a href="<?=base_url?>Transaccion/index">Transacciones</a></li>
+                    <li><a href="<?=base_url?>Reporte/index">Reportes</a></li>
+                    <li><a href="<?=base_url?>Usuario/logout">Cerrar Sesión (<?= $_SESSION['identity']->nombre_usuario ?>)</a></li>
+                
+                <?php else: ?>
+                    <li><a href="<?=base_url?>Usuario/registro">Regístrate</a></li>
+                <?php endif; ?>
+
+            </ul>
+        </nav>
     </header>
 
-    <!-- Menu -->
-     <nav id='menu' class='Conthcc' style='height: 40px; background: #d4dff3;'>
-        <ul>
-            <li><a href="<?=base_url?>">Inicio</a></li>
-            <li><a href="<?=base_url?>Cuenta/index">Cuentas</a></li>
-            <li><a href="<?=base_url?>usuario/registro">Usuarios</a></li>
-            <li><a href="<?=base_url?>Transaccion/index">Transacciones</a></li>
-            <li><a href="#">Reportes</a></li>
-
-            <?php if(isset($_SESSION['identity'])): ?>
-                <li><a href="<?=base_url?>usuario/logout">Cerrar Sesión (<?= $_SESSION['identity']->nombre_usuario ?>)</a></li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-    <div class='Contptl'>  <div class='Contptl'>
+    <?php 
+        // Revisa si hay mensajes de éxito o error y los muestra
+        if (class_exists('Utils')) {
+            Utils::showSessionMessage('msgsuccess', 'success');
+            Utils::showSessionMessage('msgerror', 'error');
+        }
+    ?>
+    <div class='Contptl'>

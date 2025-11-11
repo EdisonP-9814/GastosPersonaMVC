@@ -3,7 +3,7 @@
     <div style="width: 80%; margin-top: 20px;">
         <h4>Mi Dashboard</h4>
         <p>
-            ¡Bienvenido, <?= htmlspecialchars($_SESSION['identity']->nombre_usuario) ?>!
+            Este es tu panel principal. Aquí puedes ver tus movimientos recientes y accesos directos.
         </p>
         
         <div class='Conthcs' style='width: 100%; margin: 20px 0;'>
@@ -27,7 +27,7 @@
                         <th>Categoría</th>
                         <th>Cuenta</th>
                         <th>Monto</th>
-                    </tr>
+                        <th>Acciones</th> </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($transacciones as $tx): ?>
@@ -42,6 +42,10 @@
                                     $<?=number_format($tx['monto_transaccion'], 2)?>
                                 </span>
                             </td>
+                            <td>
+                                <a href="<?=base_url?>Transaccion/editar&id=<?=$tx['id_transaccion']?>" class="Bt2">Editar</a>
+                                <a href="<?=base_url?>Transaccion/eliminar&id=<?=$tx['id_transaccion']?>" class="Bt2r">Eliminar</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -49,4 +53,3 @@
         <?php endif; ?>
     </div>
 </div>
-</body>

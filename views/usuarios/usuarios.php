@@ -19,4 +19,3 @@
   <!-- End Formulario de Registro -->
 </div>
 <!-- End Panel Derecho -->
-</body>

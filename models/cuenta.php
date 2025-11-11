@@ -128,6 +128,91 @@ class Cuenta {
 
         return $balance;
     }
+    /**
+     * Verifica si una cuenta tiene transacciones asociadas.
+     * Devuelve true si SÍ tiene transacciones.
+     */
+    private function tieneTransacciones($id_cuenta) {
+        $stmt = $this->db->prepare("SELECT id_transaccion FROM transacciones WHERE id_cuenta_transaccion = ? LIMIT 1");
+        $stmt->bind_param("i", $id_cuenta);
+        $stmt->execute();
+        $stmt->store_result();
+        $count = $stmt->num_rows;
+        $stmt->close();
+        return $count > 0;
+    }
 
+    /**
+     * Elimina una cuenta de la base de datos.
+     * Solo borra si el ID de usuario coincide Y no tiene transacciones.
+     */
+    public function delete() {
+        // 1. Verificar si tiene transacciones
+        if ($this->tieneTransacciones($this->id)) {
+            return false; // No se puede borrar, tiene transacciones
+        }
+
+        // 2. Si no tiene, proceder a borrar
+        $sql = "DELETE FROM cuentas WHERE id_cuenta = ? AND id_usuario_cuenta = ?";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ii", 
+            $this->id,
+            $this->id_usuario
+        );
+        
+        $delete_ok = $stmt->execute();
+        $filas_afectadas = $this->db->affected_rows; 
+        $stmt->close();
+        
+        return $delete_ok && $filas_afectadas > 0;
+    }
+    /**
+     * Obtiene los datos de una cuenta específica por su ID
+     * Solo la devuelve si pertenece al usuario (por seguridad)
+     */
+    public function getOneById() {
+        $sql = "SELECT * FROM cuentas WHERE id_cuenta = ? AND id_usuario_cuenta = ? LIMIT 1";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ii", $this->id, $this->id_usuario);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $cuenta = null;
+        if ($res && $res->num_rows === 1) {
+            $cuenta = $res->fetch_assoc();
+        }
+        
+        $res->close();
+        $stmt->close();
+        return $cuenta;
+    }
+
+    /**
+     * Actualiza una cuenta en la base de datos
+     * Solo actualiza si el ID de usuario coincide (por seguridad)
+     */
+    public function update() {
+        $sql = "UPDATE cuentas SET 
+                    nombre_cuenta = ?, 
+                    tipo_cuenta = ?
+                WHERE 
+                    id_cuenta = ? AND id_usuario_cuenta = ?";
+        
+        $stmt = $this->db->prepare($sql);
+        
+        $stmt->bind_param("ssii", 
+            $this->nombre,
+            $this->tipo,
+            $this->id, // ID de la cuenta
+            $this->id_usuario // ID del usuario (para seguridad)
+        );
+        
+        $update_ok = $stmt->execute();
+        $stmt->close();
+        
+        return $update_ok;
+    }
 }
 ?>

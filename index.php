@@ -3,6 +3,7 @@
     session_start();
     require_once 'config/parameters.php';
     require_once 'autoload.php';
+    require_once 'helpers/utils.php';
     require_once 'views/header.php';
     require_once 'views/sidebar.php';
 
@@ -44,4 +45,5 @@
     } else {
         show_error(); // La clase (controlador) no existe
     }
+    require_once 'views/footer.php';
 ?>

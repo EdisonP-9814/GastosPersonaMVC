@@ -7,18 +7,14 @@ class UsuarioController {
     /* ----------- Vista principal (Dashboard o Home Público) ----------- */
     public function index() {
         if(isset($_SESSION['identity'])){
-            // Si está logueado, muestra el dashboard
-            
-            // 1. Cargar las transacciones recientes
+            // ... (código del dashboard) ...
             $transaccion_model = new Transaccion();
             $id_usuario = $_SESSION['identity']->id_usuario;
             $transacciones = $transaccion_model->getRecentByUserId($id_usuario);
-            
-            // 2. Cargar la vista del dashboard (y pasarle los datos)
             require_once 'views/dashboard/index.php';
         } else {
-            // Si NO está logueado, muestra el formulario de registro
-            require_once 'views/usuarios/usuarios.php';
+            // Si NO está logueado, muestra el home público
+            require_once 'views/home/index.php';
         }
     }
 

@@ -19,7 +19,7 @@
                         <th>Categoría</th>
                         <th>Cuenta</th>
                         <th>Monto</th>
-                    </tr>
+                        <th>Acciones</th> </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($transacciones as $tx): ?>
@@ -34,6 +34,10 @@
                                     $<?=number_format($tx['monto_transaccion'], 2)?>
                                 </span>
                             </td>
+                             <td>
+                                <a href="<?=base_url?>Transaccion/editar&id=<?=$tx['id_transaccion']?>" class="Bt2">Editar</a>
+                                <a href="<?=base_url?>Transaccion/eliminar&id=<?=$tx['id_transaccion']?>" class="Bt2r">Eliminar</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -41,4 +45,3 @@
         <?php endif; ?>
     </div>
 </div>
-</body>

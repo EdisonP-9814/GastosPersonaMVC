@@ -35,7 +35,8 @@
                             </span>
                         </td>
                         <td>
-                            <a href="#" class="Bt2">Editar</a>
+                            <a href="<?=base_url?>Cuenta/editar&id=<?=$c['id_cuenta']?>" class="Bt2">Editar</a>
+                            <a href="<?=base_url?>Cuenta/eliminar&id=<?=$c['id_cuenta']?>" class="Bt2r">Eliminar</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -43,4 +44,3 @@
         </table>
     <?php endif; ?>
 </div>
-</body>

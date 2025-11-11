@@ -3,9 +3,11 @@
   <form action="<?=base_url?>Cuenta/save" class='Contvcc Frm2 Brd15' method="post">
     <h4>Crear Nueva Cuenta</h4>
 
+    <label for="nombre">Nombre (Ej: Ahorros Banco)</label>
     <input type="text" name="nombre" placeholder="Nombre (Ej: Ahorros Banco)" required>
 
-    <select name="tipo" required style="width: 250px; height: 35px; margin-bottom: 7px;">
+    <label for="tipo">Tipo de Cuenta</label>
+    <select name="tipo" required>
         <option value="" disabled selected>Selecciona el Tipo de Cuenta</option>
         <option value="EFECTIVO">EFECTIVO</option>
         <option value="BANCO">BANCO</option>
@@ -14,6 +16,7 @@
         <option value="DIGITAL">DIGITAL (Ej: PayPal)</option>
     </select>
 
+    <label for="saldo">Saldo Inicial</label>
     <input type="number" name="saldo" placeholder="Saldo Inicial" step="0.01" value="0.00" required>
 
     <div class='Conthcj' style='width: 75%; height: 60px;'>
@@ -23,4 +26,3 @@
     </div>
   </form>
 </div>
-</body>

@@ -68,7 +68,8 @@ class Transaccion {
     public function getRecentByUserId($id_usuario, $limit = 10) {
         $transacciones = [];
         
-        $sql = "SELECT 
+        $sql = "SELECT
+                    t.id_transaccion,
                     t.monto_transaccion, 
                     t.tipo_transaccion, 
                     t.descripcion_transaccion, 
@@ -105,7 +106,8 @@ class Transaccion {
     public function getAllByUserId($id_usuario) {
         $transacciones = [];
         
-        $sql = "SELECT 
+        $sql = "SELECT
+                    t.id_transaccion,
                     t.monto_transaccion, 
                     t.tipo_transaccion, 
                     t.descripcion_transaccion, 
@@ -133,6 +135,133 @@ class Transaccion {
         }
         $stmt->close();
         return $transacciones;
+    }
+    /**
+     * Elimina una transacción de la base de datos
+     * Solo borra si el ID de usuario coincide (por seguridad)
+     */
+    public function delete() {
+        // Obtenemos el ID de la transacción y el ID de usuario (setteados desde el controlador)
+        $id_transaccion = $this->id;
+        $id_usuario_check = $this->id_usuario;
+
+        $sql = "DELETE FROM transacciones WHERE id_transaccion = ? AND id_usuario_transaccion = ?";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ii", 
+            $id_transaccion,
+            $id_usuario_check
+        );
+        
+        $delete_ok = $stmt->execute();
+        
+        // affected_rows nos asegura que SÍ borró algo (que el ID existía y pertenecía al usuario)
+        $filas_afectadas = $this->db->affected_rows; 
+        
+        $stmt->close();
+        
+        return $delete_ok && $filas_afectadas > 0;
+    }
+    /**
+     * Obtiene una transacción específica por su ID
+     * Solo la devuelve si pertenece al usuario (por seguridad)
+     */
+    public function getOneById($id_transaccion, $id_usuario) {
+        $sql = "SELECT 
+                    t.*, 
+                    sc.id_categoria_subcategoria AS id_categoria_principal
+                FROM transacciones t
+                JOIN subcategorias sc ON t.id_subcategoria_transaccion = sc.id_subcategoria
+                WHERE t.id_transaccion = ? AND t.id_usuario_transaccion = ?
+                LIMIT 1";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("ii", $id_transaccion, $id_usuario);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $transaccion = null;
+        if ($res && $res->num_rows === 1) {
+            $transaccion = $res->fetch_assoc();
+        }
+        
+        $res->close();
+        $stmt->close();
+        return $transaccion;
+    }
+   /**
+     * Actualiza una transacción en la base de datos
+     * Solo actualiza si el ID de usuario coincide (por seguridad)
+     */
+    public function update() {
+        
+        $sql = "UPDATE transacciones SET 
+                    monto_transaccion = ?, 
+                    tipo_transaccion = ?, 
+                    descripcion_transaccion = ?, 
+                    fecha_transaccion = ?, 
+                    id_cuenta_transaccion = ?, 
+                    id_subcategoria_transaccion = ?, 
+                    id_metodo_transaccion = ?
+                WHERE 
+                    id_transaccion = ? AND id_usuario_transaccion = ?";
+        
+        $stmt = $this->db->prepare($sql);
+        
+        // El método de pago puede ser nulo (para Ingresos)
+        if (empty($this->id_metodo)) {
+            $this->id_metodo = null;
+        }
+        $stmt->bind_param("dsssiiiii", 
+            $this->monto,
+            $this->tipo,
+            $this->descripcion,
+            $this->fecha,
+            $this->id_cuenta,
+            $this->id_subcategoria,
+            $this->id_metodo,
+            $this->id,
+            $this->id_usuario // ID del usuario (para seguridad)
+        );
+        
+        $update_ok = $stmt->execute();
+        $stmt->close();
+        
+        return $update_ok;
+    }
+    /**
+     * Obtiene la suma total de gastos por categoría para un usuario.
+     */
+    public function getGastosPorCategoria($id_usuario) {
+        $reporte = [];
+        
+        $sql = "SELECT 
+                    cat.nombre_categoria,
+                    SUM(t.monto_transaccion) AS total_gastado
+                FROM transacciones t
+                JOIN subcategorias sc ON t.id_subcategoria_transaccion = sc.id_subcategoria
+                JOIN categorias cat ON sc.id_categoria_subcategoria = cat.id_categoria
+                WHERE 
+                    t.id_usuario_transaccion = ? 
+                    AND t.tipo_transaccion = 'GASTO'
+                GROUP BY 
+                    cat.id_categoria, cat.nombre_categoria
+                ORDER BY 
+                    total_gastado DESC";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("i", $id_usuario);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        if ($res) {
+            while ($row = $res->fetch_assoc()) {
+                $reporte[] = $row;
+            }
+            $res->close();
+        }
+        $stmt->close();
+        return $reporte;
     }
 }
 ?>

@@ -1,6 +1,6 @@
 <div class='Contvcc Frm1' style='margin-top: 20px;'>
   
-  <form action="<?=base_url?>Transaccion/save" class='Contvcc Frm2 Brd15' method="post" style="width: 350px;">
+  <form action="<?=base_url?>Transaccion/save" class='Contvcc Frm2 Brd15' method="post">
     
     <?php if($tipo_tx == 'GASTO'): ?>
         <h4>Registrar Nuevo Gasto</h4>
@@ -11,19 +11,16 @@
     <input type="hidden" name="tipo" value="<?=$tipo_tx?>" />
 
     <label>Monto:</label>
-    <input type="number" name="monto" placeholder="0.00" step="0.01" required 
-           style="width: 300px; height: 35px; margin-bottom: 7px;">
+    <input type="number" name="monto" placeholder="0.00" step="0.01" required>
 
     <label>Descripción:</label>
-    <input type="text" name="descripcion" placeholder="Ej: Compra supermercado" required
-           style="width: 300px; height: 35px; margin-bottom: 7px;">
+    <input type="text" name="descripcion" placeholder="Ej: Compra supermercado" required>
 
     <label>Fecha:</label>
-    <input type="date" name="fecha" value="<?=date('Y-m-d')?>" required
-           style="width: 300px; height: 35px; margin-bottom: 7px;">
+    <input type="date" name="fecha" value="<?=date('Y-m-d')?>" required>
 
     <label>Cuenta:</label>
-    <select name="cuenta" required style="width: 300px; height: 35px; margin-bottom: 7px;">
+    <select name="cuenta" required>
         <option value="" disabled selected>-- Selecciona una cuenta --</option>
         <?php foreach($cuentas as $cuenta): ?>
             <option value="<?=$cuenta['id_cuenta']?>">
@@ -33,7 +30,7 @@
     </select>
 
     <label>Categoría:</label>
-    <select name="categoria" required style="width: 300px; height: 35px; margin-bottom: 7px;">
+    <select name="categoria" required>
         <option value="" disabled selected>-- Selecciona una categoría --</option>
         <?php foreach($categorias as $cat): ?>
             <option value="<?=$cat['id_categoria']?>">
@@ -44,7 +41,7 @@
 
     <?php if($tipo_tx == 'GASTO'): ?>
         <label>Método de Pago:</label>
-        <select name="metodo" required style="width: 300px; height: 35px; margin-bottom: 7px;">
+        <select name="metodo" required>
             <option value="" disabled selected>-- Selecciona un método --</option>
             <?php foreach($metodos as $metodo): ?>
                 <option value="<?=$metodo['id_metodo']?>">
@@ -62,4 +59,3 @@
     </div>
   </form>
 </div>
-</body>
